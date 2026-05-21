@@ -7,25 +7,9 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-// Datos de conexión (Laragon, MySQL sin contraseña)
-$host = "localhost";
-$user = "root";
-$pass = "";
-$db   = "usuarios";  // tu base de datos
-
-$conn = new mysqli($host, $user, $pass, $db);
-
-if ($conn->connect_error) {
-    die("Conexión fallida: " . $conn->connect_error);
-} else {
-    // conexión exitosa; ejecutar una consulta simple para confirmar el enlace
-    $test = $conn->query("SELECT 1");
-    if (! $test) {
-        die("Error al probar la base de datos: " . $conn->error);
-    }
-    // si desea ver la confirmación, puede descomentar la línea siguiente:
-    // echo "DB ok (SELECT 1) <br>";
-}
+// Incluir configuración de base de datos
+require 'config.php';
+$conn = $GLOBALS['db_connection'];
 
 // Recibir datos del formulario (puede ser nombre de usuario o correo)
 $username = trim($_POST['username'] ?? '');

@@ -6,15 +6,9 @@ session_start();
 
 // sólo procesar POST cuando el formulario se envía
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $host = "localhost";
-    $user = "root";
-    $pass = "";
-    $db   = "usuarios";  // coincide con login.php
-
-    $conn = new mysqli($host, $user, $pass, $db);
-    if ($conn->connect_error) {
-        die("Conexión fallida: " . $conn->connect_error);
-    }
+    // Incluir configuración de base de datos
+    require 'config.php';
+    $conn = $GLOBALS['db_connection'];
 
     // leer y limpiar valores
     $username = trim($_POST['username'] ?? '');

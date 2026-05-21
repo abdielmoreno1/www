@@ -1,0 +1,27 @@
+# Variables de entorno - NUNCA hacer commit
+.env
+.env.local
+.env.*.local
+
+# Configuración local
+config.php
+
+# Node modules
+node_modules/
+
+# IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Uploads
+uploads/*
+!uploads/.gitkeep
