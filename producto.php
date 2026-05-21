@@ -195,20 +195,29 @@ if ($countRes) {
         // cada sample puede tener varios tipos
         $samples = [
             ['nombre'=>'Bulbasaur','tipos'=>['Planta'],'imagen'=>'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png'],
+            ['nombre'=>'Ivysaur','tipos'=>['Planta'],'imagen'=>'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png'],
+            ['nombre'=>'Venusaur','tipos'=>['Planta','Veneno'],'imagen'=>'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png'],
+            ['nombre'=>'Charmander','tipos'=>['Fuego'],'imagen'=>'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png'],
+            ['nombre'=>'Charmeleon','tipos'=>['Fuego'],'imagen'=>'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png'],
             ['nombre'=>'Charizard','tipos'=>['Fuego','Volador'],'imagen'=>'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png'],
             ['nombre'=>'Squirtle','tipos'=>['Agua'],'imagen'=>'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png'],
-            ['nombre'=>'Gyarados','tipos'=>['Agua','Volador'],'imagen'=>'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/130.png'],
+            ['nombre'=>'Wartortle','tipos'=>['Agua'],'imagen'=>'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/8.png'],
+            ['nombre'=>'Blastoise','tipos'=>['Agua'],'imagen'=>'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png'],
+            ['nombre'=>'Caterpie','tipos'=>['Bicho'],'imagen'=>'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10.png'],
+            ['nombre'=>'Butterfree','tipos'=>['Bicho','Volador'],'imagen'=>'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/12.png'],
+            ['nombre'=>'Weedle','tipos'=>['Bicho','Veneno'],'imagen'=>'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/13.png'],
+            ['nombre'=>'Pidgey','tipos'=>['Normal','Volador'],'imagen'=>'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/16.png'],
+            ['nombre'=>'Pidgeotto','tipos'=>['Normal','Volador'],'imagen'=>'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/17.png'],
+            ['nombre'=>'Pidgeot','tipos'=>['Normal','Volador'],'imagen'=>'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/18.png'],
             ['nombre'=>'Pikachu','tipos'=>['Eléctrico'],'imagen'=>'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png'],
-            ['nombre'=>'Onix','tipos'=>['Roca','Tierra'],'imagen'=>'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/95.png'],
-            ['nombre'=>'Scyther','tipos'=>['Bicho','Volador'],'imagen'=>'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/123.png'],
             ['nombre'=>'Jigglypuff','tipos'=>['Normal','Hada'],'imagen'=>'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/39.png'],
             ['nombre'=>'Gengar','tipos'=>['Fantasma','Veneno'],'imagen'=>'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/94.png'],
-            ['nombre'=>'Steelix','tipos'=>['Acero','Roca'],'imagen'=>'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/208.png'],
-            ['nombre'=>'Dratini','tipos'=>['Dragón'],'imagen'=>'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/147.png'],
-            ['nombre'=>'Caterpie','tipos'=>['Bicho'],'imagen'=>'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10.png'],
-            ['nombre'=>'Haunter','tipos'=>['Fantasma','Veneno'],'imagen'=>'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/93.png'],
+            ['nombre'=>'Onix','tipos'=>['Roca','Tierra'],'imagen'=>'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/95.png'],
+            ['nombre'=>'Scyther','tipos'=>['Bicho','Volador'],'imagen'=>'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/123.png'],
             ['nombre'=>'Mew','tipos'=>['Psíquico'],'imagen'=>'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/151.png'],
             ['nombre'=>'Lapras','tipos'=>['Agua','Hielo'],'imagen'=>'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/131.png'],
+            ['nombre'=>'Snorlax','tipos'=>['Normal'],'imagen'=>'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/143.png'],
+            ['nombre'=>'Vaporeon','tipos'=>['Agua'],'imagen'=>'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/134.png'],
         ];
         $insMonster = $conn->prepare("INSERT INTO pokemon (nombre,imagen) VALUES (?,?)");
         $insRel = $conn->prepare("INSERT INTO pokemon_tipo (pokemon_id,tipo_id) VALUES (?,?)");
@@ -384,10 +393,10 @@ while ($r = $res2->fetch_assoc()) {
     </form>
     <div class="row g-3">
         <?php foreach ($slots as $p): ?>
-            <div class="col-12 col-md-4">
-                <div class="card">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="card h-100 shadow-sm border-0">
                     <?php if (!empty($p['imagen'])): ?>
-                        <img src="<?=htmlspecialchars($p['imagen'])?>" class="card-img-top" alt="<?=htmlspecialchars($p['nombre'])?>">
+                        <img src="<?=htmlspecialchars($p['imagen'])?>" class="card-img-top img-fluid" style="max-height: 200px; object-fit: contain; background: #f8f9fa;" alt="<?=htmlspecialchars($p['nombre'])?>">
                     <?php endif; ?>
                     <div class="card-body">
                         <h5 class="card-title"><?=htmlspecialchars($p['nombre'])?></h5>
