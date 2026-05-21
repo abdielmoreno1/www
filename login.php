@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 // Incluir configuración de base de datos
-require 'config.php';
+require __DIR__ . '/db.php';
 $conn = $GLOBALS['db_connection'];
 
 // Recibir datos del formulario (puede ser nombre de usuario o correo)

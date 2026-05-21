@@ -43,17 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 
-// conexión a la base de datos (ajustar si la base cambia)
-$host = "localhost";
-$user = "root";
-$pass = "";
-$db   = "usuarios"; // usa la misma base que login, se puede cambiar a "pokepet" u otra
-
-$conn = new mysqli($host, $user, $pass, $db);
-if ($conn->connect_error) {
-    die("Conexión fallida: " . $conn->connect_error);
-}
-
+// Conexión a la base de datos usando variables de entorno
+require __DIR__ . '/db.php';
+$conn = $GLOBALS['db_connection'];
 
 // si existían tablas anteriores con estructura distinta, eliminarlas para recrearlas
 // NOTE: removido para evitar perder datos; la base se inicializa sólo si no existe

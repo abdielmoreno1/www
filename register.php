@@ -7,7 +7,7 @@ session_start();
 // sólo procesar POST cuando el formulario se envía
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Incluir configuración de base de datos
-    require 'config.php';
+    require __DIR__ . '/db.php';
     $conn = $GLOBALS['db_connection'];
 
     // leer y limpiar valores
