@@ -22,37 +22,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: home.php');
         exit;
     }
-    // procesar subida de archivos
-    if (isset($_FILES['files'])) {
-        $uploadDir = 'uploads/';
-        if (!is_dir($uploadDir)) {
-            mkdir($uploadDir, 0755, true);
-        }
-        foreach ($_FILES['files']['name'] as $key => $name) {
-            $tmpName = $_FILES['files']['tmp_name'][$key];
-            $error = $_FILES['files']['error'][$key];
-            if ($error === UPLOAD_ERR_OK) {
-                $originalName = basename($name);
-                $ext = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
-                $allowed = ['pdf', 'jpg', 'jpeg', 'png', 'gif'];
-                if (in_array($ext, $allowed)) {
-                    $baseName = pathinfo($originalName, PATHINFO_FILENAME);
-                    // Sanitizar el nombre base
-                    $baseName = preg_replace('/[^a-zA-Z0-9\-_\.]/', '_', $baseName);
-                    $newName = $baseName . '.' . $ext;
-                    $counter = 1;
-                    while (file_exists($uploadDir . $newName)) {
-                        $newName = $baseName . '_' . $counter . '.' . $ext;
-                        $counter++;
-                    }
-                    move_uploaded_file($tmpName, $uploadDir . $newName);
-                }
-            }
-        }
-        // redirigir para evitar reenvío de formulario
-        header('Location: home.php');
-        exit;
-    }
 }
 ?>
 <!doctype html>
@@ -211,7 +180,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       @media (max-width: 768px) {
         .site-header nav {
           flex-wrap: wrap;
-          gap: 1rem;
+          gap: 0.75rem;
+          padding: 0.75rem 1rem;
         }
         .nav-links {
           order: 3;
@@ -219,10 +189,85 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           display: flex;
           gap: 1rem;
           flex-wrap: wrap;
+          font-size: 0.9rem;
         }
         .card-image {
           aspect-ratio: 16/9;
           background-attachment: scroll;
+        }
+        .hero-section {
+          min-height: 50vh;
+          padding: 2rem 1rem;
+        }
+        .card-section {
+          padding: 1.5rem 1rem;
+        }
+        .card-content {
+          padding: 1.5rem 1rem;
+        }
+        .card-content h3 {
+          font-size: 1.25rem;
+        }
+        footer {
+          padding: 2rem 1rem 1rem;
+        }
+      }
+      
+      @media (max-width: 480px) {
+        .site-header nav {
+          padding: 0.5rem 0.75rem;
+          gap: 0.5rem;
+        }
+        .site-header a {
+          font-size: 0.8rem;
+        }
+        .site-header .text-muted {
+          display: none;
+        }
+        .nav-links {
+          gap: 0.75rem;
+          font-size: 0.85rem;
+        }
+        .hero-section {
+          min-height: 40vh;
+          padding: 1.5rem 0.75rem;
+        }
+        .hero-section h1 {
+          font-size: 1.8rem;
+        }
+        .hero-section p {
+          font-size: 1rem;
+          margin-bottom: 1.5rem;
+        }
+        .card-section {
+          padding: 1rem 0.75rem;
+        }
+        .card-content {
+          padding: 1rem 0.75rem;
+        }
+        .card-content h3 {
+          font-size: 1.15rem;
+          margin-bottom: 0.75rem;
+        }
+        .card-content p {
+          font-size: 0.95rem;
+          line-height: 1.5;
+        }
+        footer {
+          padding: 1.5rem 0.75rem 0.75rem;
+        }
+        footer h5 {
+          font-size: 1rem;
+          margin-bottom: 0.75rem;
+        }
+        footer small {
+          font-size: 0.8rem;
+        }
+        .list-unstyled li {
+          margin-bottom: 0.5rem;
+        }
+        .list-unstyled a {
+          font-size: 0.85rem;
         }
       }
     </style>
@@ -351,48 +396,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   <div class="card-section">
     <div style="max-width: 1200px; margin: 0 auto;">
-      <h2 style="text-align: center; margin-bottom: 3rem; font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; color: #333;">Gestión de Archivos</h2>
+      <h2 style="text-align: center; margin-bottom: 3rem; font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; color: #333;">💝 Adopciones Exitosas</h2>
+      <p style="text-align: center; color: #666; margin-bottom: 2rem; font-size: clamp(1rem, 2vw, 1.15rem);">Gracias por encontrarles un hogar a nuestros Pokémon</p>
       
-      <div class="row">
-        <div class="col-md-6">
-          <h3>Subir Archivos</h3>
-          <form method="post" enctype="multipart/form-data">
-            <div class="mb-3">
-              <label for="files" class="form-label">Seleccionar archivos (PDF, JPG, PNG, GIF)</label>
-              <input type="file" class="form-control" id="files" name="files[]" multiple accept=".pdf,.jpg,.jpeg,.png,.gif">
-            </div>
-            <button type="submit" class="btn btn-primary">Subir Archivos</button>
-          </form>
+      <?php
+      require __DIR__ . '/db.php';
+      $conn = $GLOBALS['db_connection'];
+      $adopciones = $conn->query("SELECT usuario, pokemon_adoptados, fecha FROM adopciones ORDER BY fecha DESC LIMIT 50");
+      
+      if ($adopciones && $adopciones->num_rows > 0):
+      ?>
+        <div style="overflow-x: auto; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
+          <table style="width: 100%; border-collapse: collapse; background: white;">
+            <thead>
+              <tr style="background: linear-gradient(135deg, #667eea 0%, #d8a23e 100%); color: white;">
+                <th style="padding: 1rem; text-align: left; font-weight: 600; font-size: clamp(0.95rem, 2vw, 1.1rem);">👤 Usuario</th>
+                <th style="padding: 1rem; text-align: left; font-weight: 600; font-size: clamp(0.95rem, 2vw, 1.1rem);">🎁 Pokémon Adoptados</th>
+                <th style="padding: 1rem; text-align: left; font-weight: 600; font-size: clamp(0.85rem, 1.5vw, 1rem); display: none;" class="d-md-table-cell">📅 Fecha</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php while ($row = $adopciones->fetch_assoc()): 
+                $pokemon = json_decode($row['pokemon_adoptados'], true);
+                $pokemon_str = is_array($pokemon) ? implode(', ', array_map('htmlspecialchars', $pokemon)) : htmlspecialchars($row['pokemon_adoptados']);
+                $fecha = date('d/m/Y H:i', strtotime($row['fecha']));
+              ?>
+                <tr style="border-bottom: 1px solid #eee; transition: background 0.2s ease;">
+                  <td style="padding: 1rem; font-weight: 500; color: #333; font-size: clamp(0.9rem, 1.8vw, 1rem);">
+                    <?=htmlspecialchars($row['usuario'])?>
+                  </td>
+                  <td style="padding: 1rem; color: #666; font-size: clamp(0.85rem, 1.6vw, 0.95rem);">
+                    <?=$pokemon_str?>
+                  </td>
+                  <td style="padding: 1rem; color: #999; font-size: clamp(0.75rem, 1.3vw, 0.85rem); display: none;" class="d-md-table-cell">
+                    <?=$fecha?>
+                  </td>
+                </tr>
+              <?php endwhile; ?>
+            </tbody>
+          </table>
         </div>
-        
-        <div class="col-md-6">
-          <h3>Archivos Cargados</h3>
-          <div class="list-group">
-            <?php
-            $uploadDir = 'uploads/';
-            if (is_dir($uploadDir)) {
-              $files = scandir($uploadDir);
-              foreach ($files as $file) {
-                if ($file !== '.' && $file !== '..') {
-                  $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-                  $path = $uploadDir . $file;
-                  echo '<div class="list-group-item d-flex justify-content-between align-items-center">';
-                  if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif'])) {
-                    echo '<img src="' . htmlspecialchars($path) . '" alt="' . htmlspecialchars($file) . '" style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">';
-                  } else {
-                    echo '<span class="badge bg-info me-2">' . strtoupper($ext) . '</span>';
-                  }
-                  echo '<a href="' . htmlspecialchars($path) . '" target="_blank" class="flex-grow-1">' . htmlspecialchars($file) . '</a>';
-                  echo '</div>';
-                }
-              }
-            } else {
-              echo '<p class="text-muted">No hay archivos cargados aún.</p>';
-            }
-            ?>
-          </div>
-        </div>
-      </div>
+      <?php else: ?>
+        <p style="text-align: center; color: #999; background: white; border-radius: 12px; padding: 2rem;">
+          Aún no hay adopciones. ¡Sé el primero en adoptar un Pokémon! 🚀
+        </p>
+      <?php endif; ?>
     </div>
   </div>
 </main>

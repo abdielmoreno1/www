@@ -30,5 +30,14 @@ if ($conn->connect_error) {
 }
 $conn->set_charset('utf8');
 
+// Crear tabla de adopciones si no existe
+$conn->query("
+CREATE TABLE IF NOT EXISTS adopciones (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario VARCHAR(100) NOT NULL,
+    pokemon_adoptados JSON NOT NULL,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;");
+
 $GLOBALS['db_connection'] = $conn;
 ?>

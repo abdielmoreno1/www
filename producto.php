@@ -288,32 +288,249 @@ while ($r = $res2->fetch_assoc()) {
     <title>Producto · PokéPet</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
       body {
         margin: 0;
         padding: 0;
+        background: #f8f9fa;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       }
+      .container {
+        padding: 1rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      @media (min-width: 768px) {
+        .container { padding: 2rem 1.5rem; }
+      }
+      
+      /* HEADER */
       .site-header {
         background: linear-gradient(135deg, #667eea 0%, #d8a23e 100%);
         box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         z-index: 1000;
+        position: sticky;
+        top: 0;
       }
       .site-header nav {
-        padding: 1rem 1.5rem;
+        padding: 0.75rem 1rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        align-items: center;
+        justify-content: space-between;
+      }
+      @media (max-width: 480px) {
+        .site-header nav {
+          padding: 0.5rem 0.75rem;
+          gap: 0.5rem;
+        }
       }
       .site-header a {
         color: white;
         text-decoration: none;
         transition: opacity 0.3s ease;
+        font-size: clamp(0.85rem, 2vw, 1rem);
       }
       .site-header a:hover {
         opacity: 0.7;
       }
+      .site-header .nav-links {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
       .site-header .nav-links a {
         font-weight: 500;
-        font-size: 0.95rem;
       }
       .site-header .text-muted {
         color: rgba(255,255,255,0.8) !important;
+      }
+      .site-header img {
+        width: clamp(24px, 5vw, 32px);
+        height: auto;
+      }
+      
+      /* MAIN */
+      main > h1 {
+        font-size: clamp(1.8rem, 4vw, 2.5rem);
+        font-weight: 700;
+        color: #333;
+        margin: 2rem 0 1.5rem;
+        text-align: center;
+      }
+      
+      /* GRID */
+      .row-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 160px), 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+      @media (min-width: 640px) {
+        .row-grid {
+          grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        }
+      }
+      @media (min-width: 768px) {
+        .row-grid {
+          grid-template-columns: repeat(4, 1fr);
+          gap: 1.5rem;
+        }
+      }
+      @media (min-width: 1024px) {
+        .row-grid {
+          grid-template-columns: repeat(5, 1fr);
+        }
+      }
+      
+      /* CARDS */
+      .card {
+        border: none;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        background: white;
+        height: 100%;
+      }
+      .card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+      }
+      
+      .card-img-top {
+        object-fit: contain;
+        height: 140px;
+        background: #f0f0f0;
+        padding: 0.75rem;
+      }
+      @media (min-width: 768px) {
+        .card-img-top {
+          height: 160px;
+          padding: 1rem;
+        }
+      }
+      
+      .card-body {
+        padding: 0.75rem;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      
+      .card-title {
+        font-weight: 600;
+        color: #333;
+        font-size: clamp(0.85rem, 2vw, 1rem);
+        margin-bottom: 0.5rem;
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+      }
+      
+      .card-text {
+        color: #666;
+        font-size: clamp(0.75rem, 1.5vw, 0.85rem);
+        margin-bottom: 0.5rem;
+      }
+      
+      .btn {
+        width: 100%;
+        border-radius: 8px;
+        font-weight: 600;
+        padding: 0.4rem 0.75rem;
+        transition: all 0.3s ease;
+        border: none;
+        font-size: clamp(0.75rem, 1.5vw, 0.85rem);
+      }
+      
+      .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+      .btn-primary:hover {
+        background: linear-gradient(135deg, #5568d3 0%, #6b3fa0 100%);
+        transform: scale(1.02);
+      }
+      
+      .btn-secondary {
+        background: linear-gradient(135deg, #a8a8a8 0%, #7a7a7a 100%);
+        color: white;
+      }
+      .btn-secondary:hover {
+        background: linear-gradient(135deg, #909090 0%, #626262 100%);
+      }
+      
+      .btn-sm {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.75rem;
+      }
+      
+      /* FILTERS */
+      .filter-section {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .filter-btn {
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        background: white;
+        border: 2px solid #667eea;
+        color: #667eea;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: clamp(0.85rem, 2vw, 0.95rem);
+      }
+      .filter-btn:hover,
+      .filter-btn.active {
+        background: #667eea;
+        color: white;
+      }
+      
+      /* RESPONSIVE */
+      @media (max-width: 640px) {
+        .container { padding: 0.75rem; }
+        main > h1 { margin: 1.5rem 0 1rem; }
+        .card-img-top { height: 120px; }
+        .card-body { padding: 0.5rem; }
+      }
+      
+      @media (max-width: 480px) {
+        .container { padding: 0.5rem; }
+        .site-header nav {
+          padding: 0.5rem 0.5rem;
+          gap: 0.35rem;
+        }
+        main > h1 {
+          font-size: 1.5rem;
+          margin: 1rem 0 0.75rem;
+        }
+        .row-grid {
+          grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+          gap: 0.75rem;
+        }
+        .card-img-top { height: 100px; }
+        .card-body { padding: 0.4rem; }
+        .card {
+          border-radius: 8px;
+        }
+        .filter-section {
+          gap: 0.5rem;
+          margin-bottom: 1.5rem;
+        }
+        .filter-btn {
+          padding: 0.35rem 0.8rem;
+          font-size: 0.75rem;
+        }
       }
     </style>
 </head>
@@ -382,63 +599,60 @@ while ($r = $res2->fetch_assoc()) {
         </section>
     <?php endif; ?>
 
-    <form method="GET" class="mb-3">
-        <label for="type" class="form-label">Filtrar por tipo</label>
-        <select name="type" id="type" class="form-select" onchange="this.form.submit()">
-            <option value="">-- Todos --</option>
-            <?php foreach ($tipos as $t): ?>
-                <option value="<?=htmlspecialchars($t)?>" <?= $tipo===$t ? 'selected' : '' ?>><?=htmlspecialchars($t)?></option>
-            <?php endforeach; ?>
-        </select>
-    </form>
-    <div class="row g-3">
+    <div class="filter-section">
+        <form method="GET" class="w-100">
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
+                <a href="producto.php" class="filter-btn <?= $tipo === '' ? 'active' : '' ?>">🎯 Todos</a>
+                <?php foreach ($tipos as $t): ?>
+                    <a href="producto.php?type=<?=urlencode($t)?>" class="filter-btn <?= $tipo === $t ? 'active' : '' ?>">
+                        <?=htmlspecialchars($t)?>
+                    </a>
+                <?php endforeach; ?>
+            </div>
+        </form>
+    </div>
+    
+    <div class="row-grid">
         <?php foreach ($slots as $p): ?>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                <div class="card h-100 shadow-sm border-0">
+            <div>
+                <div class="card">
                     <?php if (!empty($p['imagen'])): ?>
-                        <img src="<?=htmlspecialchars($p['imagen'])?>" class="card-img-top img-fluid" style="max-height: 200px; object-fit: contain; background: #f8f9fa;" alt="<?=htmlspecialchars($p['nombre'])?>">
+                        <img src="<?=htmlspecialchars($p['imagen'])?>" class="card-img-top" alt="<?=htmlspecialchars($p['nombre'])?>">
                     <?php endif; ?>
                     <div class="card-body">
                         <h5 class="card-title"><?=htmlspecialchars($p['nombre'])?></h5>
-                        <p class="card-text">Tipo: <?=htmlspecialchars($p['tipos'] ?? '')?></p>
-                        <small class="text-muted">ID: <?=htmlspecialchars($p['id'])?></small>
+                        <p class="card-text">📌 <?=htmlspecialchars($p['tipos'] ?? '')?></p>
                         <?php if ($isAdmin): ?>
-                            <div class="mt-2 d-flex gap-1 flex-wrap">
-                                <form method="post" class="flex-grow-1 mb-1">
+                            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; width: 100%;">
+                                <form method="post" style="flex: 1; min-width: 80px; margin-bottom: 0.5rem;">
                                     <input type="hidden" name="add_cart" value="<?=htmlspecialchars($p['id'])?>">
                                     <input type="hidden" name="poke_name" value="<?=htmlspecialchars($p['nombre'])?>">
                                     <input type="hidden" name="poke_img" value="<?=htmlspecialchars($p['imagen'])?>">
-                                    <button type="submit" class="btn btn-sm btn-primary w-100">Añadir</button>
+                                    <button type="submit" class="btn btn-primary">✨ Añadir</button>
                                 </form>
-                                <button class="btn btn-sm btn-secondary mb-1" type="button" data-bs-toggle="collapse" data-bs-target="#edit-<?=htmlspecialchars($p['id'])?>">Editar</button>
-                                <form method="post" class="mb-1">
+                                <form method="post" style="flex: 1; min-width: 80px;">
                                     <input type="hidden" name="admin_delete_pokemon" value="<?=htmlspecialchars($p['id'])?>">
-                                    <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                                    <button type="submit" class="btn btn-secondary">🗑️ Borrar</button>
                                 </form>
+                                <button class="btn btn-secondary" style="flex: 1; min-width: 80px;" type="button" data-bs-toggle="collapse" data-bs-target="#edit-<?=htmlspecialchars($p['id'])?>">✏️ Editar</button>
                             </div>
-                            <div class="collapse mt-2" id="edit-<?=htmlspecialchars($p['id'])?>">
-                                <form method="post" class="row g-2">
+                            <div class="collapse mt-1.5" id="edit-<?=htmlspecialchars($p['id'])?>" style="background: #f0f0f0; padding: 0.75rem; border-radius: 8px; margin-top: 0.75rem;">
+                                <form method="post">
                                     <input type="hidden" name="admin_update_pokemon" value="<?=htmlspecialchars($p['id'])?>">
-                                    <div class="col-12">
-                                        <input type="text" name="poke_nombre" class="form-control" value="<?=htmlspecialchars($p['nombre'])?>" required>
-                                    </div>
-                                    <div class="col-12">
-                                        <input type="text" name="poke_imagen" class="form-control" value="<?=htmlspecialchars($p['imagen'])?>" placeholder="URL de imagen">
-                                    </div>
-                                    <div class="col-12">
-                                        <input type="text" name="poke_tipos" class="form-control" value="<?=htmlspecialchars($p['tipos'] ?? '')?>" placeholder="Tipos (comas)">
-                                    </div>
-                                    <div class="col-12">
-                                        <button type="submit" class="btn btn-sm btn-warning w-100">Guardar cambios</button>
+                                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                        <input type="text" name="poke_nombre" class="form-control" value="<?=htmlspecialchars($p['nombre'])?>" required style="font-size: 0.85rem; padding: 0.4rem;">
+                                        <input type="text" name="poke_imagen" class="form-control" value="<?=htmlspecialchars($p['imagen'])?>" placeholder="URL de imagen" style="font-size: 0.85rem; padding: 0.4rem;">
+                                        <input type="text" name="poke_tipos" class="form-control" value="<?=htmlspecialchars($p['tipos'] ?? '')?>" placeholder="Tipos (comas)" style="font-size: 0.85rem; padding: 0.4rem;">
+                                        <button type="submit" class="btn btn-primary" style="font-size: 0.85rem; padding: 0.4rem;">Guardar</button>
                                     </div>
                                 </form>
                             </div>
                         <?php else: ?>
-                            <form method="post" class="mt-2">
+                            <form method="post">
                                 <input type="hidden" name="add_cart" value="<?=htmlspecialchars($p['id'])?>">
                                 <input type="hidden" name="poke_name" value="<?=htmlspecialchars($p['nombre'])?>">
                                 <input type="hidden" name="poke_img" value="<?=htmlspecialchars($p['imagen'])?>">
-                                <button type="submit" class="btn btn-sm btn-primary w-100">Añadir</button>
+                                <button type="submit" class="btn btn-primary">💝 Adoptar</button>
                             </form>
                         <?php endif; ?>
                     </div>
